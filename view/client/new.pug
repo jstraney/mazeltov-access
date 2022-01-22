@@ -1,0 +1,91 @@
+extends /layout/page.pug
+
+block content
+
+  +form('Create Client')(method='post').ui-frame.med-width
+
+    +menu('list:access.client:primary', null, { inline: true }).primary
+
+    label(
+      for='label'
+    ).required Client Label
+
+    +input(
+      id='label'
+      name='label'
+      type='text'
+      placeholder='My Client Application'
+    )
+
+    label(
+      for='id'
+    ).required Client ID
+
+    +input(
+      id='id'
+      name='id'
+      type='text'
+      value=util.rand.randStr(32)
+    )
+
+    label(
+      for='id'
+    ).required Client Secret
+
+    +input(
+      id='secret'
+      name='secret'
+      type='text'
+      value=util.rand.randStr(32)
+    )
+
+    p.form-prompt.
+      Write the <strong>Client Secret</strong> down in a safe place or save to
+      a password keeper. This will be encrypted after saving.
+
+    label(
+      for='isConfidential'
+    ).required Is Confidential?
+
+    label
+
+      +input(
+        id='isConfidential'
+        name='isConfidential'
+        type='radio'
+        value='_true'
+        checked=false
+      )
+
+      span Yes
+
+    label
+
+      +input(
+        id='isConfidential'
+        name='isConfidential'
+        type='radio'
+        value='_false'
+        checked=true
+      )
+
+      span No
+
+    p.form-prompt.
+      A <strong>confidential</strong> client is one that can be trusted to
+      manage its own secret key. A confidential client can use the client
+      credentials and password flow. Web applications and mobile apps are
+      not considered confidential.
+
+
+    label(
+      for='redirectUrls'
+    ) Redirect URLs
+
+    +textarea(
+      name='redirectUrls'
+      id='redirectUrls'
+    )
+
+    div.actions
+      input(type='submit' value='Create Client')

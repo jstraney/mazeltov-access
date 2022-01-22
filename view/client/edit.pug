@@ -1,0 +1,75 @@
+extends /layout/page
+
+block content
+
+  +form('Edit Client')(method='post').ui-frame.med-width
+
+    +menu('list:access.client:primary', null, { inline: true }).primary
+    +menu('list:access.client:local', null, { inline: true, resource: result }).secondary
+
+    label ID
+
+    input(
+      disabled
+      id='id'
+      value=result.id
+      type='text'
+    )
+
+    label(
+      for='label'
+    ).required Label
+
+    +input(
+      id='label'
+      name='label'
+      type='text'
+      value=result.label
+    )
+
+    label(
+      for='isConfidential'
+    ).required Is Confidential?
+
+    label
+
+      +input(
+        id='isConfidential'
+        name='isConfidential'
+        type='radio'
+        value='_true'
+        checked=result.isConfidential === true
+      )
+
+      span Yes
+
+    label
+
+      +input(
+        id='isConfidential'
+        name='isConfidential'
+        type='radio'
+        value='_false'
+        checked=result.isConfidential !== true
+      )
+
+      span No
+
+    p.form-prompt.
+      A <strong>confidential</strong> client is one that can be trusted to
+      manage its own secret key. A confidential client can use the client
+      credentials and password flow. Web applications and mobile apps are
+      not considered confidential.
+
+    label.required Redirect URLs
+
+    +textarea(
+      name='redirectUrls'
+      id='redirectUrls'
+    )=result.redirectUrls
+
+    div.actions
+      input(
+        type='submit'
+        value='Save Changes'
+      )

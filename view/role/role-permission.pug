@@ -1,0 +1,91 @@
+extends /layout/page
+
+mixin row-selector(row, index)
+  input(
+    class='row-selector'
+    type='checkbox'
+    checked=row.roleName !== null
+    data-json=`{
+      "wasChecked": ${row.roleName !== null},
+      "roleName": "${args.roleName}",
+      "permissionName": "${row.permissionName}"
+    }
+    `
+  )
+
+block content
+
+  +form('Manage Role Permissions')(method='get')#search-form.ui-frame.large-width
+
+    +menu('list:access.role:primary', null, { inline: true }).primary
+    //-+menu('list:access.role:local', null, { inline: true, resource: result }).secondary
+
+    block primary-form
+
+      label Filter by Permission Label
+
+      +input(
+        type='text'
+        name='permissionLabel'
+      )
+
+      div.inline.actions
+        input(
+          type='submit'
+          value='Search'
+        )
+
+        a.button.clear(
+          href=`${request.uri}?_redirect=/roles`
+        ) Clear
+
+      p.
+        Managing Permissions for <strong>#{args.roleName}</strong> role.
+
+    //-pre=JSON.stringify(result, null, 2)
+
+  +form(
+    'Permission Changes',
+    `${request.uri}?submitSuccess=true`
+  )(
+    method='post'
+  ).ops.ui-frame.hidden
+
+    block secondary-form
+
+      div.create-inputs
+      div.remove-inputs
+
+      div(style='overflow-y: auto; padding: 2rem').row.ui-border.spaced.short
+        div.col.half
+          h4 Being Added
+          pre.diff.create.success-color
+        div.col.half
+          h4 Being Removed
+          pre.diff.remove.error-color
+
+    div.inline.actions
+
+      input(
+        type='submit'
+        value='Save'
+      )
+
+      a.button.clear() Clear
+
+  +result-table(result, [
+    ['hasPermission', 'Enabled', { mixin: 'row-selector', selectAll: true }],
+    ['permissionLabel', 'Permission'],
+  ])
+
+  +script.
+    (($) => {
+
+      owo.formDiffSelector({
+        $opsForm: $('form.ops'),
+        storageKey: `/roles/#{args.roleName}/permissions:selection`,
+        keys: ['roleName', 'permissionName'],
+        entityName: 'rolePermission',
+      });
+
+    })(jQuery);

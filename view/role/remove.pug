@@ -1,0 +1,28 @@
+extends /layout/page
+
+block content
+
+  +form('Remove Role')(method='post').ui-frame.med-width
+
+    +menu('list:access.role:primary', null, { inline: true }).primary
+    +menu('list:access.role:local', null, { inline: true, resource: result }).secondary
+
+    table
+      tbody
+        tr
+          th.col.quarter Role Name
+          td=result.name
+        tr
+          th.col.quarter Role Label
+          td=result.label
+
+    p.form-prompt.
+      Removing the role <strong>#{result.label}</strong> is permanent
+      and cannot be undone. Are you sure you'd like to remove this
+      role?
+
+    div.actions
+      input(
+        type='submit'
+        value='Remove Role'
+      )

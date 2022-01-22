@@ -1,0 +1,32 @@
+extends /layout/page
+
+block content
+
+  +form('Remove Scope')(method='post').ui-frame.med-width
+
+    +menu('list:access.scope:primary', null, { inline: true }).primary
+    +menu('list:access.scope:local', null, { inline: true, resource: result }).secondary
+
+    table
+      tbody
+        tr
+          th Name
+          td=result.name
+        tr
+          th Label
+          td=result.label
+        tr
+          th Description
+          td=result.description
+
+    p.form-prompt.
+      Removing the <strong>#{result.label}</strong> scope is permanent
+      and cannot be undone. Are you sure you want to permanently
+      remove it?
+
+    div.actions
+
+      input(
+        type='submit'
+        value='Remove Scope'
+      )

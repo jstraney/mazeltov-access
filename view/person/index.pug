@@ -1,0 +1,63 @@
+extends /layout/page
+
+mixin person-mobile-phone(record, index)
+  -let mobilePhone = 'None';
+  if (record.mobilePhoneCountryCode && record.mobilePhoneAreaCode && record.mobilePhoneNumber)
+    -const {mobilePhoneCountryCode : cc, mobilePhoneAreaCode : area, mobilePhoneNumber: num} = record;
+    -mobilePhone = util.string.fmtPhone(`${cc}-${area}-${num}`);
+  div=mobilePhone
+
+block content
+
+  +form('Manage People')().ui-frame
+
+    +menu('list:access.person:primary', null, { inline: true }).primary
+
+    div.row.spaced
+
+      label.col.quarter Username
+
+        +input(
+          type='text'
+          id='username'
+          name='username'
+          value=(args.username || '')
+        )
+
+      label.col.quarter Email
+
+        +input(
+          type='text'
+          id='email'
+          name='email'
+          value=(args.email || '')
+        )
+
+      label.col.quarter Full Name
+
+        +input(
+          type='text'
+          id='fullName'
+          name='fullName'
+          value=(args.fullName || '')
+        )
+
+    div.actions.inline
+      input(
+        type='submit'
+        value='Search'
+      )
+
+      a.button(
+        href=request.uri
+      ) Clear
+
+  +result-table(result, [
+    ['username', 'Username', { ordered: true }],
+    ['email', 'Email', { ordered: true }],
+    ['isEmailVerified', 'Email Verified', { fmt: util.string.fmtYesNo, ordered: true }],
+    ['Mobile Phone', 'Mobile Phone', { mixin: 'person-mobile-phone' }],
+    ['createdAt', 'Created At', { ordered: true, fmt: util.date.dateToSQL }],
+    ['updatedAt', 'Changed At', { ordered: true, fmt: util.date.dateToSQL }],
+    ['actions', 'Actions', { menu: 'list:access.person:local' }]
+  ])

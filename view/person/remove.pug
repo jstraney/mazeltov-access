@@ -1,0 +1,30 @@
+extends /layout/page
+
+block content
+
+  +form('Remove Person')(method='post').ui-frame.med-width
+
+    +menu('list:access.person:primary', null, { inline: true }).primary
+
+    +menu('list:access.person:local', null, { inline: true, resource: result }).secondary
+
+    table
+      tbody
+        tr
+          th Username
+          td=result.username
+        tr
+          th Email
+          td=result.email
+
+    p.form-prompt.
+      Removing the person record for <strong>#{result.username}</strong>
+      will remove future access from the system and could remove associated
+      records to them.
+
+    div.actions
+
+      input(
+        type='submit'
+        value='Remove Person'
+      )

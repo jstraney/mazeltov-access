@@ -1,0 +1,65 @@
+extends /layout/page
+
+block content
+
+  +form('New Role')(method='post').ui-frame.med-width
+
+    +menu('list:access.role:primary', null, { inline: true }).primary
+
+    label(
+      for='name'
+    ).required Name
+
+    +input(
+      name='name'
+      type='text'
+    )
+
+    p.form-prompt.
+      The role name is a machine readable token that should be
+      <strong>camelCase</strong>.
+
+    label(
+      for='label'
+    ).required Label
+
+    +input(
+      type='text'
+      name='label'
+    )
+
+    p.form-prompt.
+      The role label is for presentation only and is how the role
+      will ordinarily appear. You can safely set this to anything
+      you'd like.
+
+    fieldset
+
+      legend.required Is Administrative
+
+      label
+        +input(
+          type='radio'
+          value='_true'
+          name='isAdministrative'
+        )
+        span Yes
+
+      label
+        +input(
+          type='radio'
+          value='_false'
+          name='isAdministrative'
+          checked=true
+        )
+        span No
+
+      p.form-prompt.
+        Administrative roles bypass authorization middleware and do not
+        require permissions to be applied to them. Use sparingly!
+
+    div.actions
+      input(
+        type='submit'
+        value='Create Role'
+      )

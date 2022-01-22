@@ -1,0 +1,20 @@
+{
+  "name": "@mazeltov/access",
+  "version": "1.0.0",
+  "description": "An authentication and authorization module based off of Oauth2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeff Straney",
+  "license": "MIT",
+  "dependencies": {
+    "@faker-js/faker": "^6.0.0-alpha.2",
+    "base64url": "^3.0.1",
+    "bcrypt": "^5.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "luxon": "^2.1.1"
+  },
+  "generatedWith": "mazeltov"
+}

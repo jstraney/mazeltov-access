@@ -1,0 +1,15 @@
+extends /layout/page
+
+block content
+
+  +form('Manage Scopes')().ui-frame
+
+    +menu('list:access.scope:primary', null, { inline: true }).primary
+
+  +result-table(result, [
+    ['name', 'Name', { ordered: true }],
+    ['label', 'Label', { ordered: true }],
+    ['createdAt', 'Created At', { ordered: true, fmt: util.date.dateToSQL }],
+    ['updatedAt', 'Changed At', { ordered: true, fmt: util.date.dateToSQL }],
+    ['actions', 'Actions', { menu: 'list:access.scope:local' }],
+  ])

@@ -1,0 +1,82 @@
+extends /layout/page
+
+mixin row-selector(row, index)
+  input.row-selector(
+    type='checkbox'
+    checked=row.scopeName !== null
+    data-json=`{
+      "wasChecked": ${row.scopeName !== null},
+      "scopeName": "${args.scopeName}",
+      "permissionName": "${row.permissionName}"
+    }`
+  )
+
+block content
+
+  +form('Manage Scope Permissions')().ui-frame
+
+    +menu('list:access.scope:primary', null, { inline: true }).primary
+
+    label Permission Label
+    +input(
+      name='permissionName'
+      type='text'
+    )
+
+    div.actions
+
+      input(
+        type='submit'
+        value='Search'
+      )
+
+      a.button(
+        href=request.uri
+      ) Clear
+
+    p.
+      Managing Permissions for <strong>#{args.scopeName}</strong> scope.
+      Scope permissions will create an intersection of a persons permissions
+      when that scope is granted on a token using the authorization code flow.
+
+  +form(
+    'Permission Changes',
+    `${request.uri}?submitSuccess=true`
+  )(method='post').ops.ui-frame.hidden
+
+    block secondary-form
+
+      div.create-inputs
+      div.remove-inputs
+
+      div(style='overflow-y: auto; padding: 2rem').row.ui-border.spaced.short
+        div.col.half
+          h4 Being Added
+          pre.diff.create.success-color
+        div.col.half
+          h4 Being Removed
+          pre.diff.remove.error-color
+
+    div.inline.actions
+
+      input(
+        type='submit'
+        value='Save'
+      )
+
+      a.button.clear() Clear
+
+  +result-table(result, [
+    ['hasPermission', 'Enabled', { mixin: 'row-selector', selectAll: true }],
+    ['permissionLabel', 'Permission'],
+  ])
+
+  +script.
+    (($) => {
+      owo.formDiffSelector({
+        $opsForm: $('form.ops'),
+        storageKey: `/scopes/#{args.scopeName}/permissions:selection`,
+        keys: ['scopeName', 'permissionName'],
+        entityName: 'scopePermission',
+      });
+    })(jQuery)

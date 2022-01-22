@@ -1,0 +1,107 @@
+extends /layout/page
+
+block content
+
+  +form('New Person')(method='post').ui-frame.med-width
+
+    +menu('list:access.person:primary', null, { inline: true }).primary
+
+    p.form-prompt.
+      This is a record used to identify a person accessing the system.
+      this could be a customer, system administrator, or employee. This
+      is not a profile, is administrative, and should not be public.
+
+    label(
+      for='fullName'
+    ).required Full Name
+
+    +input(
+      id='fullName'
+      name='fullName'
+      type='text'
+      placeholder=''
+    )
+
+    p.form-prompt.
+      This is the full name of the person including family name,
+      individual name, honorifics and suffixes.
+
+    label(
+      for='username'
+    ).required Username
+
+    +input(
+      id='username'
+      name='username'
+      type='text'
+      placeholder=''
+    )
+
+    label(
+      for='email'
+    ).required Email
+
+    +input(
+      id='email'
+      name='email'
+      type='email'
+      placeholder=''
+    )
+
+    p.form-prompt.
+      <strong>Username</strong> and <strong>Email</strong> can both
+      be used to sign into the system and may be the same. Both must
+      be unique though.
+
+    label(
+      for='password'
+    ).required Password
+
+    +input(
+      id='password'
+      name='password'
+      type='password'
+      placeholder=''
+    )
+
+    label(
+      for='confirm'
+    ).required Confirm Password
+
+    +input(
+      id='confirm'
+      name='confirm'
+      type='password'
+      placeholder=''
+    )
+
+    p.form-prompt.
+
+    fieldset.row.spaced
+
+      legend.required Mobile Phone
+
+      label.col.quarter CC
+        +telephone-ccs('_noop')(
+          name='mobilePhoneCountryCode'
+        )
+
+      label.col.quarter Area
+        +input(
+          name='mobilePhoneAreaCode'
+          type='text'
+          placeholder='123'
+        )
+
+      label.col.half Number
+        +input(
+          name='mobilePhoneNumber'
+          type='text'
+          placeholder='1234'
+        )
+
+    div.actions
+      input(
+        type='submit'
+        value='Create Record'
+      )

@@ -1,0 +1,37 @@
+extend /layout/page
+
+block content
+
+  div.ui-frame.med-width
+
+    h1 Account
+
+    +menu('accountPrimary', [
+      'get:account',
+      'adminPage',
+    ], {
+      inline: true,
+      resourceMap: {
+        'get:account': session.whoami,
+      },
+    })
+
+    table
+      tbody
+        tr
+          th Username
+          td=result.username
+        tr
+          th Email
+          td=result.email
+        tr
+          th Full Name
+          td=result.fullName
+        tr
+          th Mobile Phone
+          td
+            +phone(
+              result.mobilePhoneCountryCode,
+              result.mobilePhoneAreaCode,
+              result.mobilePhoneNumber
+            )

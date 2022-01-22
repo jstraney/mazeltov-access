@@ -1,0 +1,57 @@
+extends /layout/page
+
+block content
+
+  +form('New Scope')(method='post').ui-frame.med-width
+
+    +menu('list:access.scope:primary', null, { inline: true }).primary
+
+    label(
+      for='name'
+    ).required Name
+
+    +input(
+      id='name'
+      name='name'
+      type='text'
+      placeholder='accessPost'
+    )
+
+    p.form-prompt.
+      The <strong>Name</strong> is a field used as a
+      unique identifier. This should be camelCase and never change.
+
+    label(
+      for='label'
+    ).required Label
+
+    +input(
+      id='label'
+      name='label'
+      type='text'
+      placeholder='Access Your Posts'
+    )
+
+    p.form-prompt.
+      The <strong>Label</strong> is a front-facing, high level description of
+      the scope.
+
+    label(
+      for='description'
+    ).required Description
+
+    +textarea(
+      id='description'
+      name='description'
+      placeholder='The app will be able to read and write posts you own.'
+    )
+
+    p.form-prompt.
+      The description gives a lower level summary of what this scope
+      grants access to.
+
+    div.actions
+      input(
+        type='submit'
+        value='Create Scope'
+      )

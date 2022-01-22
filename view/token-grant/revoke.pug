@@ -1,0 +1,49 @@
+extends /layout/page
+
+block content
+
+  +form('Revoke Token')(method='post').ui-frame.large-width
+
+    +menu('list:access.tokenGrant:primary', null, { inline: true }).primary
+
+    table
+      tbody
+        if personId
+          tr
+            th Username
+            td=result.personUsername
+        tr
+          th Client
+          td=result.clientLabel
+        tr
+          th Access Token (Excerpt)
+          td=(result.accessToken.slice(0, 100) + '...')
+        tr
+          th Refresh Token (Excerpt)
+          td=(result.refreshToken.slice(0, 16) + '...')
+        tr
+          th Grant Type
+          td=result.grantType
+        tr
+          th Created At
+          td=result.createdAt
+        tr
+          th Updated At
+          td=result.updatedAt
+        if result.isRevoked
+          tr
+            th Revoked At
+            td=result.revokedAt
+
+    p.
+      Revoking this token is permanent and will prevent it from being
+      refreshed after it has expired. This will not prevent new tokens
+      from being created by the client so long as the client record
+      exists.
+
+    div.actions
+      input(
+        type='submit'
+        value='Revoke Token'
+      )
+

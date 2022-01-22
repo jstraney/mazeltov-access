@@ -1,0 +1,46 @@
+extends /layout/page
+
+mixin row-selector(row, index)
+  input(
+    type='checkbox'
+    data-json=`{
+      "id": "${row.id}"
+    }`
+  )
+
+block content
+
+  +form('Manage Clients').ui-frame.large-width
+
+    +menu('list:access.client:primary', null, { inline: true }).primary
+
+    label Label
+
+    +input(
+      type='text'
+      name='label',
+      value=(args.label|| '')
+    )
+
+    div.actions
+      input(
+        type='submit'
+        value='Search'
+      )
+
+      a.button(
+        href=request.uri
+      ) Clear
+
+  +form()(method='post')
+
+  +result-table(result, [
+    ['label', 'Label', { ordered : true }],
+    ['id', 'Client ID', { fmt: (str) => str.slice(0, 25) + '...' }],
+    ['ownerUsername', 'Owner', { fmt: (val) => val ? val : 'Nobody' }],
+    ['redirectUrls', 'Redirect URLs', { fmt: (str) => str.slice(0, 25) + '...' }],
+    ['createdAt', 'Created At', { fmt: util.date.dateToSQL, ordered: true }],
+    ['updatedAt', 'Changed At', { fmt: util.date.dateToSQL, ordered: true }],
+    ['actions', 'Actions', { menu: 'list:access.client:local' }]
+  ])
+

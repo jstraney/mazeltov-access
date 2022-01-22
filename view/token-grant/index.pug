@@ -1,0 +1,111 @@
+extends /layout/page
+
+mixin row-selector(row, index)
+  input.row-selector(
+    type='checkbox'
+    data-json=`{
+      "wasChecked": false,
+      "id": ${row.id}
+    }`
+  )
+
+block content
+
+  +form('Manage Token Grants').ui-frame.large-width
+
+    +menu('list:access.tokenGrant:primary', null, { inline: true }).primary
+
+    div.row.spaced
+
+      label(
+      ).col.quarter Username
+
+        +input(
+          type='text'
+          name='personUsername'
+          value=(args.personUsername || '')
+        )
+
+      label(
+      ).col.quarter Client Label
+
+        +input(
+          type='text'
+          name='clientLabel'
+          value=(args.clientLabel || '')
+        )
+
+      label(
+      ).col.quarter Grant Type
+
+        +select( args.grantType || '_noop', [
+          ['_noop', 'Select Grant Type'],
+          ['password', 'Password'],
+          ['client_credentials', 'Client Credentials'],
+          ['authorization_code', 'Authorization Code'],
+        ])(
+          id='grantType'
+          name='grantType'
+        )
+
+      label(
+      ).col.quarter Is Revoked
+
+        +select( request.query.isRevoked || '_noop', [
+          ['_noop', 'All'],
+          ['_true', 'Yes'],
+          ['_false', 'No'],
+        ])(
+          id='isRevoked'
+          name='isRevoked'
+        )
+
+    div.inline.actions
+
+      input(
+        type='submit'
+        value='Search'
+      )
+
+      a.button(
+        href=request.uri
+      ) Clear
+
+  +form(
+    'Bulk Revoke Token Grants',
+    `${request.uri}?submitSuccess=true`
+  )(
+    action='/token-grants/bulk-revoke'
+    method='post'
+  ).ui-frame.ops.hidden
+
+    pre.selection
+    div.inputs
+    div.actions
+      input(
+        type='submit'
+        value='Submit'
+      )
+
+      a.button.clear Clear
+
+  +result-table(result, [
+    ['id', 'Select All', { mixin: 'row-selector', selectAll: true }],
+    ['id', 'ID'],
+    ['personUsername', 'Username', { ordered: true } ],
+    ['grantType', 'Grant Type', { fmt: util.string.capitalCase }],
+    ['clientLabel', 'Client Label', { ordered: true }],
+    ['createdAt', 'Created At', { fmt: util.date.dateToISO, ordered: true }],
+    ['isRevoked', 'Is Revoked', { fmt: util.string.fmtYesNo }],
+    ['actions', 'Actions', { menu: 'list:access.tokenGrant:local' }],
+  ])
+
+  +script.
+    (($) => {
+      owo.formBulkSelector({
+        $opsForm: $('form.ops'),
+        storageKey: `/token-grants:selection`,
+        entityName: 'tokenGrant',
+        selectionSummary: (selection) => selection.length + ` token grants selected`,
+      });
+    })(jQuery);

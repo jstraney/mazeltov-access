@@ -1,0 +1,35 @@
+extends /layout/page
+
+block content
+
+  +form('Manage Roles')(method='get').ui-frame.large-width
+
+    +menu('list:access.role:primary', null, { inline: true }).primary
+
+    label(
+      for='name'
+    ) Name
+
+    +input(
+      type='text'
+      name='name'
+    )
+
+    div.inline.actions
+      input(
+        type='submit'
+        value='Search'
+      )
+
+      a.button(
+        href=request.uri
+      ) Clear
+
+    +result-table(result, [
+      ['name', 'Name', { ordered: true }],
+      ['label', 'Label', { ordered: true }],
+      ['createdAt', 'Created At', { fmt: util.date.dateToSQL, ordered: true }],
+      ['updatedAt', 'Changed At', { fmt: util.date.dateToSQL, ordered: true }],
+      ['isAdministrative', 'Is Administrative', { fmt: util.string.fmtYesNo }],
+      ['actions', 'Actions', { menu: 'list:access.role:local' }],
+    ])

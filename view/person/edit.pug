@@ -1,0 +1,92 @@
+extends /layout/page
+
+block content
+
+  +form('Edit Person')(method='post').ui-frame.med-width
+
+    +menu('list:access.person:primary', null, { inline: true }).primary
+
+    +menu('list:access.person:local', null, { inline: true, resource: result }).secondary
+
+    p.form-prompt.
+      This is a record used to identify a person accessing the system.
+      this could be a customer, system administrator, or employee. This
+      is not a profile, is administrative, and should not be public.
+
+    label(
+      for='fullName'
+    ).required Full Name
+
+    +input(
+      id='fullName'
+      name='fullName'
+      type='text'
+      placeholder=''
+      value=result.fullName
+    )
+
+    p.form-prompt.
+      This is the full name of the person including family name,
+      individual name, honorifics and suffixes.
+
+
+    label(
+      for='username'
+    ).required Userame
+
+    +input(
+      id='username'
+      name='username'
+      type='text'
+      placeholder=''
+      value=result.username
+    )
+
+    label(
+      for='email'
+    ).required Email
+
+    +input(
+      id='email'
+      name='email'
+      type='email'
+      placeholder=''
+      value=result.email
+    )
+
+    //- TODO: implement administrative password reset requiring:
+    //- A session as administrator
+    //- The persons new password
+    //- A confirm of the administrators password
+
+    fieldset.row.spaced
+
+      legend.required Mobile Phone
+
+      label.col.quarter CC
+        +telephone-ccs(result.mobilePhoneCountryCode)(
+          name='mobilePhoneCountryCode'
+        )
+
+      label.col.quarter Area
+        +input(
+          name='mobilePhoneAreaCode'
+          type='text'
+          placeholder='123'
+          value=result.mobilePhoneAreaCode,
+        )
+
+      label.col.half Number
+        +input(
+          name='mobilePhoneNumber'
+          type='text'
+          placeholder='1234'
+          value=result.mobilePhoneNumber,
+        )
+
+    div.actions
+
+      input(
+        type='submit'
+        value='Save Changes'
+      )

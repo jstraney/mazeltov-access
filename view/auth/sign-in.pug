@@ -1,0 +1,39 @@
+extends /layout/page.pug
+
+block content
+  +form('Sign In')(method='post').ui-frame.small-width
+
+    block primary-form
+
+      label(
+        for='username'
+        class='required'
+      ) Email or Username
+
+      +input(
+        id='username'
+        type='text'
+        name='username'
+      )
+
+      label(
+        class='required'
+        for='password'
+      ) Password
+
+      +input(
+        id='password'
+        type='password'
+        name='password'
+      )
+
+    div.actions
+
+      input(
+        type='submit'
+        value='Sign In'
+      )
+
+    div.actions
+
+      a(href='/password-reset/new') Forgot Password?
