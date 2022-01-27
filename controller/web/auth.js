@@ -99,6 +99,7 @@ module.exports = ( ctx = {} ) => {
         static: {
           redirect_url: defaultRedirectURL,
         },
+        errorTemplate: 'error/_50x',
       },
       validateArgs, {
         validate: {
@@ -107,6 +108,7 @@ module.exports = ( ctx = {} ) => {
             isString,
           ]),
         },
+        errorTemplate: 'error/_50x',
       },
       viewTemplate,{
         template: 'auth/sign-in',

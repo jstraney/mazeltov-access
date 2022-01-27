@@ -1,5 +1,6 @@
 const
 fs = require('fs').promises,
+existsSync = require('fs').existsSync,
 path = require('path');
 
 module.exports = async ( ctx ) => {
@@ -19,13 +20,27 @@ module.exports = async ( ctx ) => {
 
   const logger = loggerLib('@mazeltov/access/service/accessSetting');
 
-  const [
-    publicKeyPath,
-    privateKeyPath,
+  let [
+    publicKeyPath = 'rsa/pub.pem',
+    privateKeyPath = 'rsa/key.pem',
   ] = getSettings([
     '@mazeltov/access.publicKeyPath',
     '@mazeltov/access.privateKeyPath',
   ]);
+
+
+  publicKeyPath = path.resolve(appRoot, publicKeyPath);
+  privateKeyPath = path.resolve(appRoot, privateKeyPath);
+
+  if (!existsSync(publicKeyPath) || !existsSync(privateKeyPath)) {
+    logger.warn([
+      "Your public or private key couldn't be read at",
+      "%s or %s respectively. Try to install @mazeltov/access",
+      "using `mazeltov module install @mazeltov/access` or create",
+      "your own RSA key pair to load here."
+    ].join(' '));
+    return;
+  }
 
   const [
     publicKeyPem,
@@ -44,7 +59,6 @@ module.exports = async ( ctx ) => {
   });
 
   onRedux('setting', (settings) => {
-    console.log(settings);
     return {
       ...settings,
       '@mazeltov/access': {

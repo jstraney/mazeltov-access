@@ -39,12 +39,16 @@ module.exports = ( ctx = {} ) => {
   const logger = loggerLib('@mazeltov/access/service/accessController');
 
   const [
-    publicKeyPem,
-    privateKeyPem,
+    publicKeyPem = null,
+    privateKeyPem = null,
   ] = getSettings([
     '@mazeltov/access.publicKeyPem',
     '@mazeltov/access.privateKeyPem',
   ]);
+
+  if (!publicKeyPem || !privateKeyPem) {
+    return;
+  }
 
   const _requireAuth = requireAuth({
     publicKeyPem,

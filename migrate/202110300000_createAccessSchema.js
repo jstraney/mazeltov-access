@@ -1,15 +1,12 @@
 const {
-  sentenceCase,
-} = require('change-case');
-
-const {
   collection: {
     cross,
   },
   string: {
-    joinWords
+    joinWords,
+    sentenceCase,
   },
-} = require('@mazeltov/util');
+} = require('@mazeltov/core/lib/util');
 
 exports.up = async function(trx) {
 
