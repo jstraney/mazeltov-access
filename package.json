@@ -1,6 +1,6 @@
 {
   "name": "@mazeltov/access",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An authentication and authorization module based off of Oauth2",
   "main": "index.js",
   "scripts": {
