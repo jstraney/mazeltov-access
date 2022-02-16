@@ -25,7 +25,10 @@ module.exports = async ( ctx ) => {
         getSettings,
       },
     },
+    loggerLib,
   } = ctx;
+
+  const logger = loggerLib('@mazeltov/access/service/install');
 
   const rootDir = appRoot;
 
